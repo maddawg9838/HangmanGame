@@ -20,7 +20,7 @@ int main()
 
 void game()
 {
-    int wordSize, count = 0, strikes = 0;
+    int wordSize = 0, count = 0, strikes = 0, matchCount = 0;
     char guess;
     bool win = false;
 
@@ -33,7 +33,7 @@ void game()
     for (int i = 0; i < wordSize; i++)
     {
         theWord[i] = 'a';
-        match[wordSize] = false;
+        match[i] = false;
     }
 
     cout << "What is the word you will make your opponent guess, letter by letter?" << endl;
@@ -41,6 +41,12 @@ void game()
     {
         cin >> theWord[i];
     }
+
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    cout << endl;
 
     for (int i = 0; i < wordSize; i++)
     {
@@ -58,9 +64,11 @@ void game()
         {
             if (theWord[i] == guess)
             {
-                match[i] = true;
-                count++;
-                good = true;
+                if (match[i] == false)
+                {
+                    match[i] = true;
+                    good = true;
+                }
             }
         }
 
@@ -70,7 +78,15 @@ void game()
             cout << "You now have " << strikes << " amount of strikes" << endl;
         }
 
-        if (count == wordSize)
+        for (int i = 0; i < wordSize; i++)
+        {
+            if (match[i] == true)
+            {
+                matchCount++;
+            }
+        }
+
+        if (matchCount == wordSize)
         {
             message();
             return;
