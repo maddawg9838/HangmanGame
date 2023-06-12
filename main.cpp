@@ -68,6 +68,7 @@ void game()
                 {
                     match[i] = true;
                     good = true;
+                    matchCount++;
                 }
             }
         }
@@ -78,16 +79,9 @@ void game()
             cout << "You now have " << strikes << " amount of strikes" << endl;
         }
 
-        for (int i = 0; i < wordSize; i++)
-        {
-            if (match[i] == true)
-            {
-                matchCount++;
-            }
-        }
-
         if (matchCount == wordSize)
         {
+            win = true;
             message();
             return;
         }
@@ -120,6 +114,5 @@ void message()
     cout << "Congrats on guessing the correct word!";
     return;
 }
-
 
 
