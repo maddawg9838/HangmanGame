@@ -4,10 +4,15 @@
 
 using namespace std;
 
+// Completed: 6-12-23
+// Author: Maddawg9838
+
+// Function Prototypes
 void game();
 void message();
+void replay();
 
-// Function Main
+// Function Main explains the rules of the game
 int main()
 {
     cout << "Let’s Play a Game!" << endl;
@@ -15,21 +20,24 @@ int main()
     cout << "First we will have the first person choose a word and then the second person will guess" << endl
          << endl;
     game();
+    replay();
     return (0);
 }
 
+// Function void game contains the selection of the word and guessing
 void game()
 {
     int wordSize = 0, count = 0, strikes = 0, matchCount = 0;
     char guess;
     bool win = false;
-
+    
+    // Allows the first partner to select a word and stores is into an array
     cout << "How long is the word you want your partner to guess?" << endl;
     cin >> wordSize;
 
     char theWord[wordSize];
     bool match[wordSize];
-
+    
     for (int i = 0; i < wordSize; i++)
     {
         theWord[i] = 'a';
@@ -47,12 +55,14 @@ void game()
     cout << endl;
     cout << endl;
     cout << endl;
-
+    
+    // Displays the amount of characters in the word
     for (int i = 0; i < wordSize; i++)
     {
         cout << "__ ";
     }
-
+    
+    // Loop for the partner to guess a letter unless they strike out or guess the word correctly
     do
     {
         bool good = false;
@@ -109,10 +119,29 @@ void game()
     return;
 }
 
+// Function void message congradulates the person if they guess the word correctly 
 void message()
 {
     cout << "Congrats on guessing the correct word!";
     return;
+}
+
+// Function void replay allows the players to replay the entire program
+void replay()
+{
+    string playAgain;
+    
+    cout << "Would y'all want to play again? Yes or No" << endl;
+    cin >> playAgain;
+    
+    if (playAgain == "Yes")
+    {
+        main();
+    }
+    else if (playAgain == "No")
+    {
+        return();
+    }
 }
 
 
