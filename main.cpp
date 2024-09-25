@@ -1,147 +1,101 @@
 #include <iostream>
-#include <cmath>
 #include <string>
 
 using namespace std;
 
-// Completed: 6-12-23
-// Author: Maddawg9838
-
 // Function Prototypes
 void game();
 void message();
-void replay();
+bool selectWord(string &theWord);
 
-// Function Main explains the rules of the game
-int main()
-{
-    cout << "Let’s Play a Game!" << endl;
-    cout << "We are gonna play hangman" << endl;
-    cout << "First we will have the first person choose a word and then the second person will guess" << endl
-         << endl;
-    game();
-    replay();
-    return (0);
+
+int main() {
+    bool playAgain = true;
+    while (playAgain) {
+        game();
+        cout << "Would you like to play againe? (Yes/No): ";
+        string response;
+        cin >> response;
+        playAgain = (response == "Yes");
+    }
+    return 0;
 }
 
-// Function void game contains the selection of the word and guessing
-void game()
-{
-    int wordSize = 0, count = 0, strikes = 0, matchCount = 0;
-    char guess;
-    bool win = false;
-    
-    // Allows the first partner to select a word and stores is into an array
-    cout << "How long is the word you want your partner to guess?" << endl;
-    cin >> wordSize;
-
-    char theWord[wordSize];
-    bool match[wordSize];
-    
-    for (int i = 0; i < wordSize; i++)
-    {
-        theWord[i] = 'a';
-        match[i] = false;
-    }
-
-    cout << "What is the word you will make your opponent guess, letter by letter?" << endl;
-    for (int i = 0; i < wordSize; i++)
-    {
-        cin >> theWord[i];
-    }
-
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    
-    // Displays the amount of characters in the word
-    for (int i = 0; i < wordSize; i++)
-    {
-        cout << "__ ";
+// Function contains the selection of the word and the guessing
+void game() {
+    string theWord;
+    if (!selectWord(theWord)) {
+        cout << "Word selection failed." << endl;
+        return;
     }
     
-    // Loop for the partner to guess a letter unless they strike out or guess the word correctly
-    do
-    {
-        bool good = false;
-        
-        cout << "Please guess a letter. Remember 5 Strikes You are Out!!" << endl;
+    int strikes = 0;
+    int maxStrikes = 5;
+    int matchCount = 0;
+    string guessedLetters;
+    
+    // Display the word with spaces between the underscores
+    cout << "Guess the word: ";
+    for (size_t i = 0; i < theWord.length(); i++) {
+        cout << "_ ";
+    }
+    cout << endl;
+    
+    // Game loop
+    while (strikes < maxStrikes && matchCount < theWord.length()) {
+        char guess;
+        cout << "Please guess a letter: ";
         cin >> guess;
-
-        for (int i = 0; i < wordSize; i++)
-        {
-            if (theWord[i] == guess)
-            {
-                if (match[i] == false)
-                {
-                    match[i] = true;
-                    good = true;
-                    matchCount++;
-                }
+        guess = tolower(guess); // convert guess to lowercase
+        
+        // Check if the guessed letter is in the word
+        bool found = false;
+        for (size_t i = 0; i < theWord.length(); i++) {
+            if (tolower(theWord[i]) == guess) {
+                found = true;
+                matchCount++;
             }
         }
-
-        if (good == false)
-        {
+        
+        // Update guessed letters
+        guessedLetters += guess;
+        
+        if (!found) {
             strikes++;
-            cout << "You now have " << strikes << " amount of strikes" << endl;
+            cout << "Strike " << strikes << " out of " << maxStrikes << endl;
         }
-
-        if (matchCount == wordSize)
-        {
-            win = true;
+        
+        // Display current state of the guessed word
+        for (char c : theWord) {
+            if (guessedLetters.find(tolower(c)) != string::npos) {
+                cout << c << ' ';
+            } else {
+                cout << '_' << ' ';
+            }
+        }
+        
+        cout << endl;
+        
+        // Check for win condition
+        if (matchCount == theWord.length()) {
             message();
             return;
         }
-
-        if (strikes == 5)
-        {
-            cout << "You have run out of attempts" << endl;
-            return;
-        }
-
-        for (int i = 0; i < wordSize; i++)
-        {
-            if (match[i] == true)
-            {
-                cout << theWord[i] << " ";
-            }
-            else
-            {
-                cout << "___ ";
-                ;
-            }
-        }
-
-    } while (win == false);
-    return;
+    }
+    
+    cout << "You've run out of attempts. The word was: " << theWord << endl;
 }
 
-// Function void message congradulates the person if they guess the word correctly 
+// Function to select the word to guess
+bool selectWord (string &theWord) {
+    cout << "Enter the word to guess: ";
+    cin >> theWord;
+    return !theWord.empty();
+}
+
+// Function that congratulates the player 
 void message()
 {
     cout << "Congrats on guessing the correct word!";
     return;
 }
-
-// Function void replay allows the players to replay the entire program
-void replay()
-{
-    string playAgain;
-    
-    cout << "Would y'all want to play again? Yes or No" << endl;
-    cin >> playAgain;
-    
-    if (playAgain == "Yes")
-    {
-        main();
-    }
-    else if (playAgain == "No")
-    {
-        return();
-    }
-}
-
-
