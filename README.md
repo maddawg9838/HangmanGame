@@ -1,11 +1,13 @@
 # Hangman Game
 
 ## Overview
-Hangman is a classic word-guessing game where one player selects a word and the other attempts to guess it by suggesting letters. This implementation allows two players to participate in a fun and interactive game of Hangman.
+Hangman is a classic word-guessing game where one player selects a word and the other attempts to guess it by suggesting letters. This implementation allows two players to participate in a fun and interactive game of Hangman
 
 ## Features
 - **User Input**: Players can input the length of the word and their guesses.
 - **Game Logic**: Implements game rules including strikes and win conditions.
+- **Case-Insensitive Guessing**: Players can guess letters without worrying about case sensitivity.
+- **Dynamic Word Length**: The first player can choose the length and the word itself
 - **Replay Option**: Players can choose to play again after the game ends.
 
 ## How to Play
@@ -37,7 +39,6 @@ The game is implemented in C++ and consists of functions that handle game initia
 ### Key Functions
 - game() : Contains the main game logic
 - message() : Displays a congratulatory message upon winning
-- replay() : Prompts the user to play again
 
 ## Author
 Madison Humphries
